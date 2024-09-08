@@ -1,38 +1,32 @@
-<main class="flex flex-col w-[360px] h-[644px] bg-[#101013] font-medium">
-  <nav class="flex justify-between px-4 py-2 w-full">
+<main class="flex flex-col w-[360px] h-full bg-[#101013] font-medium">
+  <nav class="flex justify-between px-8 py-6 w-full">
     <a href="/" class="text-[#b3bdc7] font-normal">Acorde</a>
     <a href="/" class="text-[#b3bdc7] font-normal">Info</a>
   </nav>
 
-  <section class="px-4 flex flex-col">
-    <!-- guitar arm -->
-  </section>
-
-  <div class="flex">
-    <input
-      class="hidden-radio"
-      type="radio"
-      id="string-0"
-      name="starting-string"
-      value="0"
+  <div class="flex justify-center px-4">
+    <app-string
+      [cases]="3"
+      [index]="0"
+      [cell]="{ case: 1, note: 'C', type: 'R' }"
     />
-    <label for="string-0" class="custom-radio"></label>
-    <input
-      class="hidden-radio"
-      type="radio"
-      id="string-1"
-      name="starting-string"
-      value="1"
+    <app-string
+      [cases]="3"
+      [cell]="{ case: 0, note: 'B', type: '7' }"
+      [index]="1"
     />
-    <label for="string-1" class="custom-radio"></label>
-    <input
-      class="hidden-radio"
-      type="radio"
-      id="string-2"
-      name="starting-string"
-      value="2"
+    <app-string
+      [cases]="3"
+      [cell]="{ case: 1, note: 'G', type: '5' }"
+      [index]="2"
     />
-    <label for="string-2" class="custom-radio"></label>
+    <app-string
+      [cases]="3"
+      [cell]="{ case: 2, note: 'E', type: '3' }"
+      [index]="3"
+    />
+    <app-string [cases]="3" [index]="4" />
+    <app-string [cases]="3" [index]="5" />
   </div>
 
   <div class="flex px-4 text-[#b3bdc7]">
@@ -48,8 +42,8 @@
     </button>
   </div>
 
-  <div class="flex flex-col">
-    <div class="flex pl-4 relative text-[14px] leading-3">
+  <div class="flex flex-col mb-4">
+    <div class="flex pl-4 py-2 relative text-[14px] leading-3">
       <button class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]">
         <svg
           width="10"
@@ -64,7 +58,9 @@
           />
         </svg>
       </button>
-      <div class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90% ">
+      <div
+        class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90%"
+      >
         Key
       </div>
       <div class="flex overflow-hidden w-full -translate-x-[8px]">

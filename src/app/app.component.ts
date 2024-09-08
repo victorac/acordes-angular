@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { StringComponent } from './string/string.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, StringComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {
   title = 'acordes';
@@ -17,7 +18,7 @@ export class AppComponent implements AfterViewInit {
     let startX: number;
     let scrollLeft: number;
 
-    scrollable.addEventListener('mousedown', (e: { pageX: number; }) => {
+    scrollable.addEventListener('mousedown', (e: { pageX: number }) => {
       isDown = true;
       scrollable.classList.add('active');
       startX = e.pageX - scrollable.offsetLeft;
@@ -34,12 +35,15 @@ export class AppComponent implements AfterViewInit {
       scrollable.classList.remove('active');
     });
 
-    scrollable.addEventListener('mousemove', (e: { preventDefault: () => void; pageX: number; }) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - scrollable.offsetLeft;
-      const walk = (x - startX) * 3; //scroll-fast
-      scrollable.scrollLeft = scrollLeft - walk;
-    });
+    scrollable.addEventListener(
+      'mousemove',
+      (e: { preventDefault: () => void; pageX: number }) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - scrollable.offsetLeft;
+        const walk = (x - startX) * 3; //scroll-fast
+        scrollable.scrollLeft = scrollLeft - walk;
+      }
+    );
   }
 }
