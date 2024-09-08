@@ -10,3 +10,47 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.no-scrollbar li:first-child {
+  padding-left: 8px;
+}
+
+/* Hide the default radio button */
+.hidden-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Style the custom radio button */
+.custom-radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #B3BDC7;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 16px;
+}
+
+/* Style the custom radio button when checked */
+.hidden-radio:checked + .custom-radio {
+  background-color: #B3BDC7;
+}
+
+// /* Add an inner circle to indicate the checked state */
+// .hidden-radio:checked + .custom-radio::after {
+//   content: '';
+//   display: block;
+//   width: 10px;
+//   height: 10px;
+//   border-radius: 50%;
+//   background-color: #1D1F2C;
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }

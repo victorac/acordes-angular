@@ -9,9 +9,30 @@
   </section>
 
   <div class="flex">
-    <input type="radio" name="starting_string" value="0" />
-    <input type="radio" name="starting_string" value="1" />
-    <input type="radio" name="starting_string" value="2" />
+    <input
+      class="hidden-radio"
+      type="radio"
+      id="string-0"
+      name="starting-string"
+      value="0"
+    />
+    <label for="string-0" class="custom-radio"></label>
+    <input
+      class="hidden-radio"
+      type="radio"
+      id="string-1"
+      name="starting-string"
+      value="1"
+    />
+    <label for="string-1" class="custom-radio"></label>
+    <input
+      class="hidden-radio"
+      type="radio"
+      id="string-2"
+      name="starting-string"
+      value="2"
+    />
+    <label for="string-2" class="custom-radio"></label>
   </div>
 
   <div class="flex px-4 text-[#b3bdc7]">
@@ -28,7 +49,7 @@
   </div>
 
   <div class="flex flex-col">
-    <div class="flex">
+    <div class="flex pl-4 relative text-[14px] leading-3">
       <button class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]">
         <svg
           width="10"
@@ -43,14 +64,14 @@
           />
         </svg>
       </button>
-      <div class="flex overflow-hidden w-full">
+      <div class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90% ">
+        Key
+      </div>
+      <div class="flex overflow-hidden w-full -translate-x-[8px]">
         <ul
           #scrollable
-          class="flex shrink-0 grow-0 basis-full overflow-x-scroll text-[14px] leading-3 no-scrollbar"
+          class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar"
         >
-          <li class="px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7]">
-            Key
-          </li>
           <li>
             <button
               class="px-2 py-[14px] rounded-3xl h-[42px] min-w-[60px] bg-[#E6FF81] text-[#1D1F2C]"
@@ -85,10 +106,22 @@
               <span>Db</span>
             </button>
           </li>
+          <li>
+            <button
+              class="px-[14px] py-[14px] rounded-3xl h-[42px] bg-[#1D1F2C] text-[#B3BDC7] flex gap-1 items-center"
+            >
+              <span>C#</span>
+              <img src="dot.svg" alt="dot" />
+              <span>Db</span>
+            </button>
+          </li>
         </ul>
       </div>
+      <div
+        class="absolute right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
+      ></div>
     </div>
-    <div class="flex">
+    <div class="flex px-4">
       <button
         class="w-[64px] h-[64px] rounded-3xl border border-[#E6FF81] text-[#E6FF81] bg-[#3C3F2F]"
       >
