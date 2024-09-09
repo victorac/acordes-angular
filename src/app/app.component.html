@@ -66,51 +66,17 @@
       <div class="flex overflow-hidden w-full -translate-x-[8px]">
         <ul
           #scrollable
-          class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar"
+          class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1"
         >
+          @for(note of notes; track $index){
           <li>
-            <button
-              class="px-2 py-[14px] rounded-3xl h-[42px] min-w-[60px] bg-[#E6FF81] text-[#1D1F2C]"
-            >
-              C
-            </button>
+            <app-chip
+              [note]="note"
+              [isSelected]="selectedKey == note"
+              (selectChip)="selectKey($event)"
+            />
           </li>
-          <li>
-            <button
-              class="px-[14px] py-[14px] rounded-3xl h-[42px] bg-[#1D1F2C] text-[#B3BDC7] flex gap-1 items-center"
-            >
-              <span>C#</span>
-              <img src="dot.svg" alt="dot" />
-              <span>Db</span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="px-[14px] py-[14px] rounded-3xl h-[42px] bg-[#1D1F2C] text-[#B3BDC7] flex gap-1 items-center"
-            >
-              <span>C#</span>
-              <img src="dot.svg" alt="dot" />
-              <span>Db</span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="px-[14px] py-[14px] rounded-3xl h-[42px] bg-[#1D1F2C] text-[#B3BDC7] flex gap-1 items-center"
-            >
-              <span>C#</span>
-              <img src="dot.svg" alt="dot" />
-              <span>Db</span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="px-[14px] py-[14px] rounded-3xl h-[42px] bg-[#1D1F2C] text-[#B3BDC7] flex gap-1 items-center"
-            >
-              <span>C#</span>
-              <img src="dot.svg" alt="dot" />
-              <span>Db</span>
-            </button>
-          </li>
+          }
         </ul>
       </div>
       <div

@@ -1,16 +1,32 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StringComponent } from './string/string.component';
+import { ChipComponent } from './chip/chip.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, StringComponent],
+  imports: [RouterOutlet, StringComponent, ChipComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements AfterViewInit {
   title = 'acordes';
+  selectedKey = 'C';
+  notes = [
+    'C',
+    'C#-Db',
+    'D',
+    'D#-Eb',
+    'E',
+    'F',
+    'F#-Gb',
+    'G',
+    'G#-Ab',
+    'A',
+    'A#-Bb',
+    'B',
+  ];
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
   ngAfterViewInit() {
     const scrollable = this.scrollable?.nativeElement;
@@ -45,5 +61,8 @@ export class AppComponent implements AfterViewInit {
         scrollable.scrollLeft = scrollLeft - walk;
       }
     );
+  }
+  selectKey(key: string) {
+    this.selectedKey = key;
   }
 }

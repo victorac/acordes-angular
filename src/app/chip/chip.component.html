@@ -1,0 +1,22 @@
+<button
+  class="px-[14px] py-[14px] rounded-3xl h-[42px] min-w-[60px] flex gap-1 items-center justify-center"
+  [ngClass]="
+    isSelected ? 'bg-[#E6FF81] text-[#1D1F2C]' : 'bg-[#1D1F2C] text-[#B3BDC7]'
+  "
+  (click)="handleClick(note)"
+>
+  <span>{{ note.split("-")[0] }}</span>
+  @if(note.split("-")[1]!==undefined){
+  <svg
+    width="4"
+    height="4"
+    viewBox="0 0 4 4"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="2" cy="2" r="2" [style]="{fill: isSelected ? '#1D1F2C': '#B3BDC7'}" />
+  </svg>
+
+  <span>{{ note.split("-")[1] }}</span>
+  }
+</button>
