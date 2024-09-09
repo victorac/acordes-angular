@@ -27,6 +27,7 @@ export class AppComponent implements AfterViewInit {
     'A#-Bb',
     'B',
   ];
+  showKeySelect = false;
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
   ngAfterViewInit() {
     const scrollable = this.scrollable?.nativeElement;
@@ -64,5 +65,11 @@ export class AppComponent implements AfterViewInit {
   }
   selectKey(key: string) {
     this.selectedKey = key;
+  }
+  closeKeySelect() {
+    this.showKeySelect = false;
+  }
+  toggleKeySelect() {
+    this.showKeySelect = !this.showKeySelect;
   }
 }
