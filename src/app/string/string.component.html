@@ -19,8 +19,15 @@
         <div
           class="font-semibold text-[14px] leading-4 text-center text-[#535B86]"
         >
-          {{ icell.note }}
+          {{ icell.note.split("-")[0] }}
         </div>
+        @if(icell.note.split("-")[1]){
+          <div
+          class="font-semibold text-[14px] leading-4 text-center text-[#535B86]"
+        >
+          {{ icell.note.split("-")[1] }}
+        </div>
+        }
       </div>
       }
     </div>
