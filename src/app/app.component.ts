@@ -7,31 +7,19 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { StringComponent } from './string/string.component';
 import { ChipComponent } from './chip/chip.component';
+import { CaseComponent } from './case/case.component';
+import Notes from '../util/notes';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, StringComponent, ChipComponent],
+  imports: [RouterOutlet, StringComponent, ChipComponent, CaseComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'acordes';
-  selectedKey = 'C';
-  notes = [
-    'C',
-    'C#-Db',
-    'D',
-    'D#-Eb',
-    'E',
-    'F',
-    'F#-Gb',
-    'G',
-    'G#-Ab',
-    'A',
-    'A#-Bb',
-    'B',
-  ];
+  notes = new Notes();
   showKeySelect = false;
   keySelectInitialized = false;
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
@@ -82,7 +70,7 @@ export class AppComponent {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - scrollable.offsetLeft;
-      const walk = (x - startX) * 3; //scroll-fast
+      const walk = (x - startX) * 1.2; //scroll-fast
       scrollable.scrollLeft = scrollLeft - walk;
     };
 
@@ -100,8 +88,11 @@ export class AppComponent {
       scrollable.removeEventListener('mousemove', this.mouseMoveListener);
     }
   }
-  selectKey(key: string) {
-    this.selectedKey = key;
+  selectKey(key: number) {
+    this.notes.setRoot(key);
+    for (const item of this.notes) {
+      console.log(item);
+    }
   }
   closeKeySelect() {
     this.showKeySelect = false;

@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 })
 export class ChipComponent {
   @Input() note!: string;
+  @Input() index!: number;
   @Input() isSelected: boolean = false;
   @Input() onClick!: () => void;
-  @Output() selectChip = new EventEmitter<string>();
+  @Output() selectChip = new EventEmitter<number>();
 
-  handleClick(chip: string) {
-    this.selectChip.emit(chip);
+  handleClick(noteIndex: number) {
+    this.selectChip.emit(noteIndex);
   }
 }

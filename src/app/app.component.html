@@ -1,16 +1,75 @@
-<main class="flex flex-col w-[360px] h-full bg-[#101013] font-medium">
+<main class="flex flex-col w-[360px] max-h-[644px] bg-[#101013] font-medium">
   <nav class="flex justify-between px-8 py-6 w-full">
     <a href="/" class="text-[#b3bdc7] font-normal">Acorde</a>
     <a href="/" class="text-[#b3bdc7] font-normal">Info</a>
   </nav>
 
   <div class="flex justify-center px-4">
-    <app-string
+    <!-- <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(note of notes; track $index){
+      <app-case [note]="note" [step]="notes.steps[$index]" [stringNumber]="0" />
+      }
+    </div> -->
+    <div class="flex flex-col gap-2 max-h-[334px] overflow-hidden">
+      @for(item of notes.getStringIterator(4); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="0"
+      />
+      }
+    </div>
+    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(item of notes.getStringIterator(9); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="1"
+      />
+      }
+    </div>
+    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(item of notes.getStringIterator(2); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="2"
+      />
+      }
+    </div>
+    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(item of notes.getStringIterator(7); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="3"
+      />
+      }
+    </div>
+    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(item of notes.getStringIterator(11); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="4"
+      />
+      }
+    </div>
+    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
+      @for(item of notes.getStringIterator(4); track $index){
+      <app-case
+        [note]="item.note"
+        [step]="item.step"
+        [stringNumber]="5"
+      />
+      }
+    </div>
+    <!-- <app-string
       [cases]="3"
       [index]="0"
       [cell]="{ case: 1, note: 'C', type: 'R' }"
-    />
-    <app-string
+    /> -->
+    <!-- <app-string
       [cases]="3"
       [cell]="{ case: 0, note: 'B', type: '7' }"
       [index]="1"
@@ -25,8 +84,12 @@
       [cell]="{ case: 2, note: 'E', type: '3' }"
       [index]="3"
     />
-    <app-string [cases]="3" [index]="4" [cell]="{ case: 2, note: 'G#-Ab', type: '3' }" />
-    <app-string [cases]="3" [index]="5" />
+    <app-string
+      [cases]="3"
+      [index]="4"
+      [cell]="{ case: 2, note: 'G#-Ab', type: '3' }"
+    />
+    <app-string [cases]="3" [index]="5" /> -->
   </div>
 
   <div class="flex px-4 text-[#b3bdc7]">
@@ -42,49 +105,53 @@
     </button>
   </div>
 
-  <div class="flex flex-col mb-4">
+  <div class="flex flex-col mb-4 mt-1">
     @if(showKeySelect){
 
-      <div class="flex pl-4 py-2 relative text-[14px] leading-3">
-        <button class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]" (click)="closeKeySelect()">
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1.21134 10L5 6.23037L8.78866 10L10 8.79581L6.21134 5L10 1.20419L8.78866 0L5 3.76963L1.21134 0L0 1.20419L3.78866 5L0 8.79581L1.21134 10Z"
-              fill="#B3BDC7"
-            />
-          </svg>
-        </button>
-        <div
-          class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90%"
+    <div class="flex pl-4 py-2 relative text-[14px] leading-3">
+      <button
+        class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]"
+        (click)="closeKeySelect()"
+      >
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          Key
-        </div>
-        <div class="flex overflow-hidden w-full -translate-x-[8px]">
-          <ul
-            #scrollable
-            class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1"
-          >
-            @for(note of notes; track $index){
-            <li>
-              <app-chip
-                [note]="note"
-                [isSelected]="selectedKey == note"
-                (selectChip)="selectKey($event)"
-              />
-            </li>
-            }
-          </ul>
-        </div>
-        <div
-          class="absolute right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
-        ></div>
+          <path
+            d="M1.21134 10L5 6.23037L8.78866 10L10 8.79581L6.21134 5L10 1.20419L8.78866 0L5 3.76963L1.21134 0L0 1.20419L3.78866 5L0 8.79581L1.21134 10Z"
+            fill="#B3BDC7"
+          />
+        </svg>
+      </button>
+      <div
+        class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90%"
+      >
+        Key
       </div>
+      <div class="flex overflow-hidden w-full -translate-x-[8px]">
+        <ul
+          #scrollable
+          class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1"
+        >
+          @for(note of notes.data; track $index){
+          <li>
+            <app-chip
+              [note]="note"
+              [index]="$index"
+              [isSelected]="notes.root == $index"
+              (selectChip)="selectKey($event)"
+            />
+          </li>
+          }
+        </ul>
+      </div>
+      <div
+        class="absolute right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
+      ></div>
+    </div>
     }
     <div class="flex px-4">
       <button
