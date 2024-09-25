@@ -6,8 +6,14 @@
   ></div>
   @if(note){
   <div
-    class="absolute h-[72px] w-[44px] rounded-[200px] top-[17px] left-1/2 -translate-x-1/2 flex flex-col justify-center text-[24px] leading-7"
-    [ngClass]="step === 'R' ? 'bg-[#E6FF81]' : step === '3m' || step === '7M' ? 'text-[18px] leading-6 bg-[#101013] text-[#E3EFF1] border-[#E3EFF1] border-2' : 'bg-[#E3EFF1]'"
+    class="absolute h-[72px] w-[44px] rounded-[200px] top-[17px] left-1/2 -translate-x-1/2 flex flex-col justify-center"
+    [ngClass]="
+      step === 'R'
+        ? 'text-[24px] leading-7 bg-[#E6FF81]'
+        : step === '3m' || step === '7M'
+        ? 'text-[18px] leading-6 bg-[#101013] text-[#E3EFF1] border-[#E3EFF1] border-2'
+        : 'text-[24px] leading-7 bg-[#E3EFF1]'
+    "
   >
     <div class="font-semibold text-center">
       {{ step }}
