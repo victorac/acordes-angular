@@ -1,22 +1,22 @@
 <div class="relative w-[50px] h-[106px]">
   <div
     class="absolute left-1/2 -translate-x-1/2 h-full"
-    [ngClass]="step === 'R' ? 'bg-[#E6FF81]' : 'bg-[#E3EFF1]'"
+    [ngClass]="interval === 'R' ? 'bg-[#E6FF81]' : 'bg-[#E3EFF1]'"
     [style]="{ width: 6 - stringNumber + 'px' }"
   ></div>
-  @if(note){
+  @if(isIntervalIncluded()){
   <div
     class="absolute h-[72px] w-[44px] rounded-[200px] top-[17px] left-1/2 -translate-x-1/2 flex flex-col justify-center"
     [ngClass]="
-      step === 'R'
+      interval === 'R'
         ? 'text-[24px] leading-7 bg-[#E6FF81]'
-        : step === '3m' || step === '7M'
+        : interval === 'm3' || interval === 'M7'
         ? 'text-[18px] leading-6 bg-[#101013] text-[#E3EFF1] border-[#E3EFF1] border-2'
         : 'text-[24px] leading-7 bg-[#E3EFF1]'
     "
   >
     <div class="font-semibold text-center">
-      {{ step }}
+      {{ interval }}
     </div>
     <div class="font-semibold text-[14px] leading-4 text-center text-[#535B86]">
       {{ note.split("-")[0] }}

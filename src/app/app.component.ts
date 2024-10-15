@@ -8,7 +8,8 @@ import { RouterOutlet } from '@angular/router';
 import { StringComponent } from './string/string.component';
 import { ChipComponent } from './chip/chip.component';
 import { CaseComponent } from './case/case.component';
-import Notes from '../util/notes';
+import { NotesService } from './notes.service';
+import { NoteName, NOTES } from '../util/notes';
 
 @Component({
   selector: 'app-root',
@@ -19,17 +20,22 @@ import Notes from '../util/notes';
 })
 export class AppComponent {
   title = 'acordes';
-  notes = new Notes();
   showKeySelect = false;
   keySelectInitialized = false;
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
+  strings: NoteName[] = [NoteName.E, NoteName.A, NoteName.D, NoteName.G, NoteName.B, NoteName.E];
+  allKeys: NoteName[] = NOTES;
 
   private mouseDownListener: any;
   private mouseLeaveListener: any;
   private mouseUpListener: any;
   private mouseMoveListener: any;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private notesService: NotesService) {}
+
+  getRoot(): NoteName {
+    return this.notesService.getRoot();
+  }
 
   ngAfterViewChecked() {
     if (this.showKeySelect && this.scrollable && !this.keySelectInitialized) {
@@ -88,13 +94,10 @@ export class AppComponent {
       scrollable.removeEventListener('mousemove', this.mouseMoveListener);
     }
   }
-  selectKey(key: number) {
-    this.notes.setRoot(key);
-    for (const item of this.notes) {
-      console.log(item);
-    }
+  selectKey(key: NoteName) {
+    this.notesService.setRoot(key);
   }
-  closeKeySelect() {
+  exitKeySelect() {
     this.showKeySelect = false;
   }
   toggleKeySelect() {

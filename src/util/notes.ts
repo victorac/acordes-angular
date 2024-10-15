@@ -1,122 +1,87 @@
+export enum NoteName {
+  C = 'C',
+  CSharp = 'C#-Db',
+  D = 'D',
+  DSharp = 'D#-Eb',
+  E = 'E',
+  F = 'F',
+  FSharp = 'F#-Gb',
+  G = 'G',
+  GSharp = 'G#-Ab',
+  A = 'A',
+  ASharp = 'A#-Bb',
+  B = 'B'
+}
+
+export enum Interval {
+  Root = 'R',
+  MinorSecond = 'm2',
+  MajorSecond = 'M2',
+  MinorThird = 'm3',
+  MajorThird = '3',
+  PerfectFourth = 'P4',
+  Tritone = 'TT',
+  PerfectFifth = '5',
+  MinorSixth = 'm6',
+  MajorSixth = 'M6',
+  MinorSeventh = 'm7',
+  MajorSeventh = 'M7'
+}
+
+export type Note = {
+  name: NoteName;
+  interval: Interval;
+};
+
+const INTERVALS = Object.values(Interval);
+export const NOTES = Object.values(NoteName);
+
 export default class Notes {
-  data = [
-    'C',
-    'C#-Db',
-    'D',
-    'D#-Eb',
-    'E',
-    'F',
-    'F#-Gb',
-    'G',
-    'G#-Ab',
-    'A',
-    'A#-Bb',
-    'B',
-  ];
-  steps = [
-    'R',
-    undefined,
-    undefined,
-    '3m',
-    '3',
-    undefined,
-    undefined,
-    '5',
-    undefined,
-    undefined,
-    '7',
-    '7M',
-  ];
-  root = 0;
+  private rootIndex: number;
+  private intervalTable: Note[] = [];
 
-  [Symbol.iterator]() {
-    let index = 0;
-    const next = () => {
-      if (index < this.steps.length) {
-        let value = this.steps[index++];
-        return { value: value ? this.getNote(value) : undefined, done: false };
-      } else {
-        return { value: undefined, done: true };
-      }
-    };
-    return { next: next.bind(this) };
-  }
-
-  getStringIterator(startingNote: number) {
-    let iterator = {
-      data: this.data,
-      getNote: this.getNote,
-      steps: this.steps,
-      root: this.root,
-      [Symbol.iterator]() {
-        let sentinel = this.root;
-        let startingStep = 0;
-        // get the distance from the root note
-        while (sentinel != startingNote) {
-          sentinel = ++sentinel % this.data.length;
-          startingStep++;
-        }
-        let index = 0;
-        const next = () => {
-          if (index < this.data.length) {
-            let step = startingStep + index++;
-            let value = this.steps[step % this.data.length];
-            return {
-              value: {
-                note: value ? this.getNote(value) : undefined,
-                step: value,
-              },
-              done: false,
-            };
-          } else {
-            return { value: {note: undefined, step: undefined}, done: true };
-          }
-        };
-        return { next: next.bind(this) };
-      },
-    };
-    return iterator;
-  }
-
-  setRoot(i: number) {
-    this.root = i;
-  }
-
-  getNote(i: string): string {
-    let index = this.root;
-    switch (i) {
-      case 'R': {
-        break;
-      }
-      case '2': {
-        index = (this.root + 2) % this.data.length;
-        break;
-      }
-      case '3m': {
-        index = (this.root + 3) % this.data.length;
-        break;
-      }
-      case '3': {
-        index = (this.root + 4) % this.data.length;
-        break;
-      }
-      case '5': {
-        index = (this.root + 7) % this.data.length;
-        break;
-      }
-      case '6': {
-        index = (this.root + 9) % this.data.length;
-        break;
-      }
-      case '7': {
-        index = (this.root + 10) % this.data.length;
-        break;
-      }
-      case '7M': {
-        index = (this.root + 11) % this.data.length;
-        break;
-      }
+  constructor(startingNote: NoteName = NOTES[0]) {
+    this.rootIndex = NOTES.indexOf(startingNote);
+    for (let i = 0; i < NOTES.length; i++) {
+      let index = (this.rootIndex + i) % NOTES.length;
+      this.intervalTable[index] = { name: NOTES[index], interval: INTERVALS[i] };
     }
-    return this.data[index];
+  }
+
+  getRoot(): NoteName {
+    return NOTES[this.rootIndex];
+  }
+
+  setRoot(noteName: NoteName): void {
+    if (!Object.values(NoteName).includes(noteName)) {
+      throw new Error('Invalid root index');
+    }
+    this.rootIndex = NOTES.indexOf(noteName);
+    for (let i = 0; i < NOTES.length; i++) {
+      let index = (this.rootIndex + i) % NOTES.length;
+      this.intervalTable[index].interval = INTERVALS[i];
+    }
+  }
+
+  getNote(interval: Interval): NoteName {
+    const index = this.intervalTable.findIndex(note => note.interval === interval);
+    if (index === -1) {
+      throw new Error('Invalid interval');
+    }
+    return this.intervalTable[index].name;
+  }
+
+  *[Symbol.iterator](): Iterator<Note> {
+    for (let i = 0; i < this.intervalTable.length; i++) {
+      yield this.intervalTable[i];
+    }
+  }
+
+  *getStringGenerator(startingNote: NoteName): Iterator<Note> {
+    for (let i = 0; i < this.intervalTable.length; i++) {
+      let noteIndex = this.intervalTable.findIndex(note => note.name === startingNote); 
+      let index = (noteIndex + i) % this.intervalTable.length;
+      yield this.intervalTable[index];
+    }
   }
 }
