@@ -4,11 +4,7 @@
     <a href="/" class="text-[#b3bdc7] font-normal">Info</a>
   </nav>
 
-  <div class="flex justify-center px-4 max-h-[334px] overflow-y-scroll">
-    @for(note of strings; track $index){
-    <app-string [note]="note" [stringNumber]="$index" />
-    }
-  </div>
+  <app-arm />
 
   <div class="flex px-4 text-[#b3bdc7]">
     <button
@@ -49,7 +45,9 @@
       >
         Key
       </div>
-      <app-key-selector class="flex overflow-hidden w-full -translate-x-[8px]" />
+      <app-key-selector
+        class="flex overflow-hidden w-full -translate-x-[8px]"
+      />
       <div
         class="absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
       ></div>
