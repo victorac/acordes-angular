@@ -1,8 +1,6 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
-  ViewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StringComponent } from './string/string.component';
@@ -11,11 +9,13 @@ import { CaseComponent } from './case/case.component';
 import { NotesService } from './notes.service';
 import { KeySelectorComponent } from './key-selector/key-selector.component';
 import { ArmComponent } from './arm/arm.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     StringComponent,
     ChipComponent,
