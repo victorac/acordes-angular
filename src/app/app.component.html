@@ -1,12 +1,12 @@
-<main class="flex flex-col w-[360px] max-h-[644px] bg-[#101013] font-medium">
-  <nav class="flex justify-between px-8 py-6 w-full">
+<main class="flex flex-col w-[360px] h-[100vh] bg-[#101013] font-medium">
+  <nav class="flex justify-between px-8 py-6 w-full h-[72px] flex-shrink-0">
     <a href="/" class="text-[#b3bdc7] font-normal">Acorde</a>
     <a href="/" class="text-[#b3bdc7] font-normal">Info</a>
   </nav>
 
-  <app-arm />
+  <app-arm class="flex-1 min-h-0" />
 
-  <div class="flex px-4 text-[#b3bdc7]">
+  <div class="flex px-4 text-[#b3bdc7] h-[64px] flex-shrink-0">
     <button
       class="rounded-[100px] h-[64px] w-full px-1 py-3 border border-[#9498af]"
     >
@@ -19,7 +19,7 @@
     </button>
   </div>
 
-  <div class="flex flex-col mb-4 mt-1">
+  <div class="flex flex-col mb-4 mt-1 h-[122px] flex-shrink-0">
     @if(showKeySelect){
 
     <div class="flex pl-4 py-2 relative text-[14px] leading-3">
