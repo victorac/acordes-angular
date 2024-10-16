@@ -1,0 +1,14 @@
+<ul
+  #scrollable
+  class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1"
+>
+  @for(key of allKeys; track $index){
+  <li>
+    <app-chip
+      [note]="key"
+      [isSelected]="key == getRoot()"
+      (selectChip)="selectKey($event)"
+    />
+  </li>
+  }
+</ul>

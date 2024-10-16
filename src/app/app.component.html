@@ -4,93 +4,7 @@
     <a href="/" class="text-[#b3bdc7] font-normal">Info</a>
   </nav>
 
-  <div class="flex justify-center px-4">
-    <!-- <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(note of notes; track $index){
-      <app-case [note]="note" [step]="notes.steps[$index]" [stringNumber]="0" />
-      }
-    </div> -->
-    <div class="flex flex-col gap-2 max-h-[334px] overflow-hidden">
-      @for(item of notes.getStringIterator(4); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="0"
-      />
-      }
-    </div>
-    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(item of notes.getStringIterator(9); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="1"
-      />
-      }
-    </div>
-    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(item of notes.getStringIterator(2); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="2"
-      />
-      }
-    </div>
-    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(item of notes.getStringIterator(7); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="3"
-      />
-      }
-    </div>
-    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(item of notes.getStringIterator(11); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="4"
-      />
-      }
-    </div>
-    <div class="flex flex-col gap-2 max-h-[336px] overflow-hidden">
-      @for(item of notes.getStringIterator(4); track $index){
-      <app-case
-        [note]="item.note"
-        [step]="item.step"
-        [stringNumber]="5"
-      />
-      }
-    </div>
-    <!-- <app-string
-      [cases]="3"
-      [index]="0"
-      [cell]="{ case: 1, note: 'C', type: 'R' }"
-    /> -->
-    <!-- <app-string
-      [cases]="3"
-      [cell]="{ case: 0, note: 'B', type: '7' }"
-      [index]="1"
-    />
-    <app-string
-      [cases]="3"
-      [cell]="{ case: 1, note: 'G', type: '5' }"
-      [index]="2"
-    />
-    <app-string
-      [cases]="3"
-      [cell]="{ case: 2, note: 'E', type: '3' }"
-      [index]="3"
-    />
-    <app-string
-      [cases]="3"
-      [index]="4"
-      [cell]="{ case: 2, note: 'G#-Ab', type: '3' }"
-    />
-    <app-string [cases]="3" [index]="5" /> -->
-  </div>
+  <app-arm />
 
   <div class="flex px-4 text-[#b3bdc7]">
     <button
@@ -111,7 +25,7 @@
     <div class="flex pl-4 py-2 relative text-[14px] leading-3">
       <button
         class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]"
-        (click)="closeKeySelect()"
+        (click)="exitKeySelect()"
       >
         <svg
           width="10"
@@ -131,25 +45,11 @@
       >
         Key
       </div>
-      <div class="flex overflow-hidden w-full -translate-x-[8px]">
-        <ul
-          #scrollable
-          class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1"
-        >
-          @for(note of notes.data; track $index){
-          <li>
-            <app-chip
-              [note]="note"
-              [index]="$index"
-              [isSelected]="notes.root == $index"
-              (selectChip)="selectKey($event)"
-            />
-          </li>
-          }
-        </ul>
-      </div>
+      <app-key-selector
+        class="flex overflow-hidden w-full -translate-x-[8px]"
+      />
       <div
-        class="absolute right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
+        class="absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
       ></div>
     </div>
     }

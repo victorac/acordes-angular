@@ -3,7 +3,7 @@
   [ngClass]="
     isSelected ? 'bg-[#E6FF81] text-[#1D1F2C]' : 'bg-[#1D1F2C] text-[#B3BDC7]'
   "
-  (click)="handleClick(index)"
+  (click)="handleClick(note)"
 >
   <span>{{ note.split("-")[0] }}</span>
   @if(note.split("-")[1]!==undefined){

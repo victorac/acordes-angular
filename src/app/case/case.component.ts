@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NotesConfigService } from '../notes-config.service';
+import { Interval, NoteName } from '../../util/notes';
 
 @Component({
   selector: 'app-case',
@@ -9,7 +11,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './case.component.scss',
 })
 export class CaseComponent {
-  @Input() note!: string|undefined;
-  @Input() step!: string|undefined;
+  @Input() note!: NoteName;
+  @Input() interval!: Interval;
   @Input() stringNumber!: number;
+
+  constructor(private notesConfigService: NotesConfigService) {}
+
+  isIntervalIncluded(): boolean {
+    return this.notesConfigService.isIntervalIncluded(this.interval);
+  }
+
 }

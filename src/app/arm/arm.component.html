@@ -1,0 +1,5 @@
+<div #scrollable class="flex shrink-0 grow-0 justify-center px-4 max-h-[334px] overflow-y-scroll no-scrollbar">
+  @for(note of strings; track $index){
+  <app-string [note]="note" [stringNumber]="$index" />
+  }
+</div>
