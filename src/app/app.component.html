@@ -6,15 +6,19 @@
 
   <div class="flex justify-center px-4 max-h-[334px] overflow-y-scroll">
     @for(note of strings; track $index){
-      <app-string [note]="note" [stringNumber]="$index" />
+    <app-string [note]="note" [stringNumber]="$index" />
     }
   </div>
 
   <div class="flex px-4 text-[#b3bdc7]">
-    <button class="rounded-[100px] h-[64px] w-full px-1 py-3 border border-[#9498af]">
+    <button
+      class="rounded-[100px] h-[64px] w-full px-1 py-3 border border-[#9498af]"
+    >
       Minor
     </button>
-    <button class="rounded-[100px] h-[64px] w-full px-1 py-3 border border-[#9498af]">
+    <button
+      class="rounded-[100px] h-[64px] w-full px-1 py-3 border border-[#9498af]"
+    >
       7 Major
     </button>
   </div>
@@ -23,32 +27,39 @@
     @if(showKeySelect){
 
     <div class="flex pl-4 py-2 relative text-[14px] leading-3">
-      <button class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]" (click)="exitKeySelect()">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <button
+        class="shrink-0 grow-0 text-center p-4 w-[42px] h-[42px]"
+        (click)="exitKeySelect()"
+      >
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M1.21134 10L5 6.23037L8.78866 10L10 8.79581L6.21134 5L10 1.20419L8.78866 0L5 3.76963L1.21134 0L0 1.20419L3.78866 5L0 8.79581L1.21134 10Z"
-            fill="#B3BDC7" />
+            fill="#B3BDC7"
+          />
         </svg>
       </button>
-      <div class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90%">
+      <div
+        class="z-10 px-2 py-[14px] min-w-[60px] text-center text-[#B3BDC7] bg-gradient-to-r from-[#101013] from-90%"
+      >
         Key
       </div>
-      <div class="flex overflow-hidden w-full -translate-x-[8px]">
-        <ul #scrollable class="flex shrink-0 grow-0 w-full overflow-x-scroll no-scrollbar gap-1">
-          @for(key of allKeys; track $index){
-          <li>
-            <app-chip [note]="key" [isSelected]="key == getRoot()"
-              (selectChip)="selectKey($event)" />
-          </li>
-          }
-        </ul>
-      </div>
-      <div class="absolute right-0 h-full w-4 bg-gradient-to-l from-[#101013]"></div>
+      <app-key-selector class="flex overflow-hidden w-full -translate-x-[8px]" />
+      <div
+        class="absolute top-0 right-0 h-full w-4 bg-gradient-to-l from-[#101013]"
+      ></div>
     </div>
     }
     <div class="flex px-4">
-      <button class="w-[64px] h-[64px] rounded-3xl border border-[#E6FF81] text-[#E6FF81] bg-[#3C3F2F]"
-        (click)="toggleKeySelect()">
+      <button
+        class="w-[64px] h-[64px] rounded-3xl border border-[#E6FF81] text-[#E6FF81] bg-[#3C3F2F]"
+        (click)="toggleKeySelect()"
+      >
         Key
       </button>
     </div>
