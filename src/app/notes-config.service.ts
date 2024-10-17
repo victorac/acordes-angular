@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Interval, NoteName } from '../util/notes';
+import { Interval } from '../util/notes';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotesConfigService {
   private includedIntervals: Interval[] = [
@@ -11,10 +11,13 @@ export class NotesConfigService {
     Interval.MajorThird,
     Interval.PerfectFifth,
     Interval.MinorSeventh,
-    Interval.MajorSeventh
+    Interval.MajorSeventh,
   ];
 
-  constructor() { }
+  showMajor7: boolean = true;
+  showMinor: boolean = true;
+
+  constructor() {}
 
   getIncludedIntervals(): Interval[] {
     return this.includedIntervals;
@@ -23,4 +26,27 @@ export class NotesConfigService {
   isIntervalIncluded(interval: Interval): boolean {
     return this.includedIntervals.includes(interval);
   }
+
+  toggleMinor() {
+    this.showMinor = !this.showMinor;
+    if (this.showMinor) {
+      this.includedIntervals.push(Interval.MinorThird);
+    } else {
+      this.includedIntervals = this.includedIntervals.filter(
+        (interval) => interval !== Interval.MinorThird
+      );
+    }
+  }
+
+  toggleMajor7() {
+    this.showMajor7 = !this.showMajor7;
+    if (this.showMajor7) {
+      this.includedIntervals.push(Interval.MajorSeventh);
+    } else {
+      this.includedIntervals = this.includedIntervals.filter(
+        (interval) => interval !== Interval.MajorSeventh
+      );
+    }
+  }
+
 }

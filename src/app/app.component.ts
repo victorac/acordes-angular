@@ -1,15 +1,12 @@
-import {
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StringComponent } from './string/string.component';
 import { ChipComponent } from './chip/chip.component';
 import { CaseComponent } from './case/case.component';
-import { NotesService } from './notes.service';
 import { KeySelectorComponent } from './key-selector/key-selector.component';
 import { ArmComponent } from './arm/arm.component';
 import { CommonModule } from '@angular/common';
+import { NotesConfigService } from './notes-config.service';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +29,7 @@ export class AppComponent {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private notesService: NotesService
+    private notesConfigService: NotesConfigService
   ) {}
 
   exitKeySelect() {
@@ -43,5 +40,21 @@ export class AppComponent {
     if (this.showKeySelect) {
       this.cdr.detectChanges();
     }
+  }
+
+  toggleMinor() {
+    this.notesConfigService.toggleMinor();
+  }
+
+  toggleMajor7() {
+    this.notesConfigService.toggleMajor7();
+  }
+
+  showMinor() {
+    return this.notesConfigService.showMinor;
+  }
+
+  showMajor7() {
+    return this.notesConfigService.showMajor7;
   }
 }
