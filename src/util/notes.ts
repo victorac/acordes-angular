@@ -78,8 +78,8 @@ export default class Notes {
   }
 
   *getStringGenerator(startingNote: NoteName): Iterator<Note> {
+    let noteIndex = this.intervalTable.findIndex(note => note.name === startingNote); 
     for (let i = 0; i < this.intervalTable.length; i++) {
-      let noteIndex = this.intervalTable.findIndex(note => note.name === startingNote); 
       let index = (noteIndex + i) % this.intervalTable.length;
       yield this.intervalTable[index];
     }
