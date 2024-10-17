@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ChipComponent } from '../chip/chip.component';
 import { NoteName, NOTES } from '../../util/notes';
 import { NotesService } from '../notes.service';
+import { fromEvent, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-key-selector',
@@ -12,14 +13,12 @@ import { NotesService } from '../notes.service';
 })
 export class KeySelectorComponent {
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
-  private mouseDownListener: any;
-  private mouseLeaveListener: any;
-  private mouseUpListener: any;
-  private mouseMoveListener: any;
-  private keySelectInitialized = false;
+  private isDown = false;
+  private startX = 0;
+  private scrollLeft = 0;
   allKeys: NoteName[] = NOTES;
 
-  constructor(private notesService: NotesService) {}
+  constructor(private notesService: NotesService, private ngZone: NgZone) {}
 
   getRoot(): NoteName {
     return this.notesService.getRoot();
@@ -30,64 +29,40 @@ export class KeySelectorComponent {
   }
 
   ngAfterViewChecked() {
-    if (!this.keySelectInitialized) {
-      this.initializeKeySelect();
-      this.keySelectInitialized = true;
-    }
+    this.initializeKeySelect();
   }
 
   initializeKeySelect() {
     const scrollable = this.scrollable?.nativeElement;
-    console.log(scrollable);
-    let isDown = false;
-    let startX: number;
-    let scrollLeft: number;
+    if (!scrollable) return;
 
-    this.mouseDownListener = (e: { pageX: number }) => {
-      console.log('mouseDownListener');
-      isDown = true;
-      scrollable.classList.add('active');
-      startX = e.pageX - scrollable.offsetLeft;
-      scrollLeft = scrollable.scrollLeft;
-    };
+    this.ngZone.runOutsideAngular(() => {
+      fromEvent(scrollable, 'mousedown').subscribe((e: any) => {
+        this.isDown = true;
+        scrollable.classList.add('active');
+        this.startX = e.pageX - scrollable.offsetLeft;
+        this.scrollLeft = scrollable.scrollLeft;
+      });
 
-    this.mouseLeaveListener = () => {
-      console.log('mouseLeaveListener');
-      isDown = false;
-      scrollable.classList.remove('active');
-    };
+      fromEvent(scrollable, 'mouseleave').subscribe(() => {
+        this.isDown = false;
+        scrollable.classList.remove('active');
+      });
 
-    this.mouseUpListener = () => {
-      isDown = false;
-      scrollable.classList.remove('active');
-    };
+      fromEvent(scrollable, 'mouseup').subscribe(() => {
+        this.isDown = false;
+        scrollable.classList.remove('active');
+      });
 
-    this.mouseMoveListener = (e: {
-      preventDefault: () => void;
-      pageX: number;
-    }) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - scrollable.offsetLeft;
-      const walk = (x - startX) * 1.2; //scroll-fast
-      scrollable.scrollLeft = scrollLeft - walk;
-    };
-
-    scrollable.addEventListener('mousedown', this.mouseDownListener);
-    scrollable.addEventListener('mouseleave', this.mouseLeaveListener);
-    scrollable.addEventListener('mouseup', this.mouseUpListener);
-    scrollable.addEventListener('mousemove', this.mouseMoveListener);
-  }
-  detachListeners() {
-    const scrollable = this.scrollable?.nativeElement;
-    if (scrollable) {
-      scrollable.removeEventListener('mousedown', this.mouseDownListener);
-      scrollable.removeEventListener('mouseleave', this.mouseLeaveListener);
-      scrollable.removeEventListener('mouseup', this.mouseUpListener);
-      scrollable.removeEventListener('mousemove', this.mouseMoveListener);
-    }
-  }
-  ngOnDestroy() {
-    this.detachListeners();
+      fromEvent(scrollable, 'mousemove')
+        .pipe(throttleTime(16))
+        .subscribe((e: any) => {
+          if (!this.isDown) return;
+          e.preventDefault();
+          const x = e.pageX - scrollable.offsetLeft;
+          const walk = (x - this.startX) * 1.2;
+          scrollable.scrollLeft = this.scrollLeft - walk;
+        });
+    });
   }
 }

@@ -17,6 +17,8 @@ export class NotesConfigService {
   showMajor7: boolean = true;
   showMinor: boolean = true;
 
+  maxCases: number = 4;
+
   constructor() {}
 
   getIncludedIntervals(): Interval[] {

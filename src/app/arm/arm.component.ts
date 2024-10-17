@@ -1,6 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { NoteName } from '../../util/notes';
 import { StringComponent } from "../string/string.component";
+import { fromEvent, throttleTime } from 'rxjs';
+
+
+type StringArray = {name: NoteName, stringNumber: number}[];
 
 @Component({
   selector: 'app-arm',
@@ -11,71 +15,54 @@ import { StringComponent } from "../string/string.component";
 })
 export class ArmComponent {
   @ViewChild('scrollable') scrollable: ElementRef | undefined;
-  private mouseDownListener: any;
-  private mouseLeaveListener: any;
-  private mouseUpListener: any;
-  private mouseMoveListener: any;
-  private keySelectInitialized = false;
-  strings: NoteName[] = [NoteName.E, NoteName.A, NoteName.D, NoteName.G, NoteName.B, NoteName.E];
+  private isDown = false;
+  private startY = 0;
+  private scrollTop = 0;
 
-  ngAfterViewChecked() {
-    if (!this.keySelectInitialized) {
-      this.initializeKeySelect();
-      this.keySelectInitialized = true;
-    }
+  strings: StringArray = [
+    {name: NoteName.E, stringNumber: 0},
+    {name: NoteName.A, stringNumber: 1},
+    {name: NoteName.D, stringNumber: 2},
+    {name: NoteName.G, stringNumber: 3},
+    {name: NoteName.B, stringNumber: 4},
+    {name: NoteName.E, stringNumber: 5},
+  ];
+
+  constructor(private ngZone: NgZone) {}
+
+  ngAfterViewInit() {
+    this.initializeKeySelect();
   }
 
   initializeKeySelect() {
     const scrollable = this.scrollable?.nativeElement;
-    let isDown = false;
-    let startY: number;
-    let scrollTop: number;
+    if (!scrollable) return;
 
-    this.mouseDownListener = (e: { pageY: number }) => {
-      isDown = true;
-      scrollable.classList.add('active');
-      startY = e.pageY - scrollable.offsetTop;
-      scrollTop = scrollable.scrollTop;
-    };
+    this.ngZone.runOutsideAngular(() => {
+      fromEvent(scrollable, 'mousedown').subscribe((e:any) => {
+        this.isDown = true;
+        scrollable.classList.add('active');
+        this.startY = e.pageY - scrollable.offsetTop;
+        this.scrollTop = scrollable.scrollTop;
+      });
 
-    this.mouseLeaveListener = () => {
-      isDown = false;
-      scrollable.classList.remove('active');
-    };
+      fromEvent(scrollable, 'mouseleave').subscribe(() => {
+        this.isDown = false;
+        scrollable.classList.remove('active');
+      });
 
-    this.mouseUpListener = () => {
-      isDown = false;
-      scrollable.classList.remove('active');
-    };
+      fromEvent(scrollable, 'mouseup').subscribe(() => {
+        this.isDown = false;
+        scrollable.classList.remove('active');
+      });
 
-    this.mouseMoveListener = (e: {
-      preventDefault: () => void;
-      pageY: number;
-    }) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const y = e.pageY - scrollable.offsetTop;
-      const walk = (y - startY) * 1.2; //scroll-fast
-      scrollable.scrollTop = scrollTop - walk;
-    };
-
-    scrollable.addEventListener('mousedown', this.mouseDownListener);
-    scrollable.addEventListener('mouseleave', this.mouseLeaveListener);
-    scrollable.addEventListener('mouseup', this.mouseUpListener);
-    scrollable.addEventListener('mousemove', this.mouseMoveListener);
+      fromEvent(scrollable, 'mousemove').pipe(throttleTime(16)).subscribe((e:any) => {
+        if (!this.isDown) return;
+        e.preventDefault();
+        const y = e.pageY - scrollable.offsetTop;
+        const walk = (y - this.startY) * 1.2;
+        scrollable.scrollTop = this.scrollTop - walk;
+      })
+    })
   }
-  detachListeners() {
-    const scrollable = this.scrollable?.nativeElement;
-    if (scrollable) {
-      scrollable.removeEventListener('mousedown', this.mouseDownListener);
-      scrollable.removeEventListener('mouseleave', this.mouseLeaveListener);
-      scrollable.removeEventListener('mouseup', this.mouseUpListener);
-      scrollable.removeEventListener('mousemove', this.mouseMoveListener);
-    }
-  }
-  ngOnDestroy() {
-    this.detachListeners();
-  }
-
-
 }
