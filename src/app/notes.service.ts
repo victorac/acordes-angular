@@ -28,14 +28,9 @@ export class NotesService {
     return this.notesConfigService.maxCases;
   }
 
-  getStringIterable(note: NoteName): Iterable<Note> {
-    let caseCount = 0;
+  getStringIterable(note: NoteName): Iterable<{note: Note, index: number}> {
     return {
-      [Symbol.iterator]: () => {
-        caseCount++;
-        console.log(caseCount);
-        return this.notes.getStringGenerator(note);
-      },
+      [Symbol.iterator]: () => this.notes.getStringGenerator(note),
     };
   }
 }

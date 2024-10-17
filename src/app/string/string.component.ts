@@ -5,7 +5,6 @@ import { NotesConfigService } from '../notes-config.service';
 import { type Note, NoteName } from '../../util/notes';
 import { CaseComponent } from '../case/case.component';
 
-
 @Component({
   selector: 'app-string',
   standalone: true,
@@ -16,15 +15,10 @@ import { CaseComponent } from '../case/case.component';
 export class StringComponent {
   @Input() note!: NoteName;
   @Input() stringNumber!: number;
-  notesIterable: Iterable<Note>;
 
-  constructor(private notesService: NotesService, private notesConfigService: NotesConfigService,) {
-    this.notesIterable = this.notesService.getStringIterable(this.note);
-  }
+  constructor(private notesService: NotesService) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['note']) {
-      this.notesIterable = this.notesService.getStringIterable(this.note);
-    }
+  getNotesIterable(): Iterable<{ note: Note; index: number }> {
+    return this.notesService.getStringIterable(this.note);
   }
 }

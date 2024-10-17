@@ -1,9 +1,10 @@
 <div class="flex flex-col gap-2">
-  @for(item of notesIterable; track $index){
+  @for(item of getNotesIterable(); track $index){
   <app-case
-    [note]="item.name"
-    [interval]="item.interval"
+    [note]="item.note.name"
+    [interval]="item.note.interval"
     [stringNumber]="stringNumber"
+    [caseNumber]="item.index"
   />
   }
 </div>

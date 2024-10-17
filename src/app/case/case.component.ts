@@ -14,6 +14,7 @@ export class CaseComponent {
   @Input() note!: NoteName;
   @Input() interval!: Interval;
   @Input() stringNumber!: number;
+  @Input() caseNumber!: number;
 
   constructor(private notesConfigService: NotesConfigService) {}
 
@@ -21,4 +22,7 @@ export class CaseComponent {
     return this.notesConfigService.isIntervalIncluded(this.interval);
   }
 
+  getMaxCaseNumber(): number {
+    return this.notesConfigService.maxCases;
+  }
 }

@@ -4,7 +4,7 @@
     [ngClass]="interval === 'R' ? 'bg-[#E6FF81]' : 'bg-[#E3EFF1]'"
     [style]="{ width: 6 - stringNumber + 'px' }"
   ></div>
-  @if(isIntervalIncluded()){
+  @if(isIntervalIncluded() && caseNumber <= getMaxCaseNumber()){
   <div
     class="absolute h-[72px] w-[44px] rounded-[200px] top-[17px] left-1/2 -translate-x-1/2 flex flex-col justify-center"
     [ngClass]="
